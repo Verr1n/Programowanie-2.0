@@ -1,9 +1,13 @@
+
 using System;
 
-public class NPC
+namespace Bestiarium
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
+
+ public class NPC
+ {
+    public int X { get; set; }
+    public int Y { get; set; }
 
     private Random rand = new Random();
 
@@ -28,16 +32,13 @@ public class NPC
             case 3: newX++; break;
         }
 
-        if (newY >= 0 && newY < level.Length &&
-            newX >= 0 && newX < level[0].Length &&
-            level[newY][newX] != '#')
+        if (level[newY][newX] != '#')
         {
             X = newX;
             Y = newY;
         }
     }
 
-    // Interakcja z graczem
     public static bool Interact()
     {
         Console.Clear();
@@ -48,31 +49,30 @@ public class NPC
         string[] options = { "papier", "kamień", "nożyce" };
         int trials = 3;
         bool winning = false;
-        Random npcRand = new Random();
 
         while (trials > 0)
         {
             Console.Write("\n🫵 Twój wybór: ");
-            string person = Console.ReadLine()?.ToLower()?.Trim() ?? "";
+            string person = Console.ReadLine()?.ToLower() ?? "";
 
-            if (Array.IndexOf(options, person) == -1)
+        if (Array.IndexOf(options, person) == -1)
             {
-                Console.WriteLine("❌ Niepoprawny wybór! Wpisz papier, kamień albo nożyce.");
+                Console.WriteLine("Nie ma takiego wyboru w podstawowej wersji papier kamień nożyce");
                 continue;
             }
 
-            string npc = options[npcRand.Next(3)];
+            string npc = options[new Random().Next(3)];
+
             Console.WriteLine($"NPC wybrał: {npc}");
 
             if (person == npc)
             {
-                Console.WriteLine("Remis!");
+                Console.WriteLine("🔁 Remis!");
                 continue;
             }
-
             if ((person == "papier" && npc == "kamień") ||
-                (person == "kamień" && npc == "nożyce") ||
-                (person == "nożyce" && npc == "papier"))
+               (person == "kamień" && npc == "nożyce") ||
+               (person == "nożyce" && npc == "papier"))
             {
                 Console.WriteLine("Wygrałeś!");
                 winning = true;
@@ -85,13 +85,7 @@ public class NPC
             }
         }
 
-        if (!winning)
-        {
-            Console.WriteLine("Przegrałeś wszystkie próby.");
-        }
-
-        Console.WriteLine("Naciśnij dowolny klawisz, by kontynuować...");
-        Console.ReadKey();
         return winning;
     }
+  }
 }
