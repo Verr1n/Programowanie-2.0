@@ -1,55 +1,23 @@
-using System;
-
 public class Item
 {
-    public string Name { get; private set; } = "Klucz";
-    public int X { get; private set; }
-    public int Y { get; private set; }
-    public bool Collected { get; private set; } = false;
+    public string Name { get; private set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    private static Random rand = new Random();
 
-    private Random rand = new Random();
-
-    public Item(string name)
+    public Item(string name, int maxWidth, int maxHeight, string[] level)
     {
         Name = name;
+        RandomizePosition(maxWidth, maxHeight, level);
     }
 
-    public void PlaceRandomly(string[] level)
+    public void RandomizePosition(int maxWidth, int maxHeight, string[] level)
     {
-        while (true)
+        do
         {
-            int x = rand.Next(1, level[0].Length - 1);
-            int y = rand.Next(1, level.Length - 1);
-
-            if (level[y][x] == ' ')
-            {
-                X = x;
-                Y = y;
-                break;
-            }
+            X = rand.Next(1, maxWidth - 1);
+            Y = rand.Next(1, maxHeight - 1);
         }
-    }
-
-    public bool TryPickup(int playerX, int playerY)
-    {
-        if (!Collected && playerX == X && playerY == Y)
-        {
-            Collected = true;
-            Console.WriteLine($"Znalazłeś przedmiot: {Name}!");
-            return true;
-        }
-        return false;
-    }
-
-    public bool UseOnDoor()
-    {
-        if (Collected)
-        {
-            Console.WriteLine($"Używasz {Name} do otwarcia drzwi.");
-            return true;
-        }
-
-        Console.WriteLine("Nie masz odpowiedniego przedmiotu.");
-        return false;
+        while (level[Y][X] == '#' || level[Y][X] == 'D');
     }
 }

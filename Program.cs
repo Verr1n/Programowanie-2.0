@@ -1,81 +1,186 @@
-﻿string[] level = {
-    "###########",
-    "#      #  #",
-    "#   #     #",
-    "#   #     #",
-    "###########"
-};
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 
-NPC npc = new NPC(5, 3);
-
-int playerX = 1;
-int playerY = 1;
-
-Console.CursorVisible = false;
-
-while (true)
+class Program
 {
-    Console.Clear();
-    DrawLevel();
+    static string[] level1 = {
+        "###########",
+        "#     K   #",
+        "#   #     #",
+        "#   #   D #",
+        "###########"
+    };
 
-    ConsoleKey key = Console.ReadKey(true).Key;
+    static string[] level2 = {
+        "###########",
+        "#         #",
+        "#   N     #",
+        "#     D   #",
+        "###########"
+    };
 
-    int newX = playerX;
-    int newY = playerY;
+    static string[] currentLevel;
+    static int playerX = 1;
+    static int playerY = 1;
+    static Inventory playerInventory = new Inventory();
+    static Item key;
+    static NPC npc;
 
-    switch (key)
+    static void Main()
     {
-        case ConsoleKey.W: newY--; break;
-        case ConsoleKey.S: newY++; break;
-        case ConsoleKey.A: newX--; break;
-        case ConsoleKey.D: newX++; break;
-        case ConsoleKey.Escape: return;
-    }
+        Console.CursorVisible = false;
+        LoadLevel(level1);
 
-    if (level[newY][newX] != '#')   // kod na kolizje
-    {
-        playerX = newX;
-        playerY = newY;
-    }
-
-
-    npc.Move(level);
-
-    if (playerX == npc.X && playerY == npc.Y)
-    {
-        bool passed = NPC.Interact();
-        if (passed)
+        while (true)
         {
-            Console.WriteLine("Good Job");
-            Console.ReadKey();
-            return;
+            DrawLevel();
+            HandleInput();
         }
-        else
+    }
+
+    static void LoadLevel(string[] level)
+    {
+        currentLevel = level;
+
+        if (level == level1)
         {
-            Console.WriteLine("L");
-            Console.ReadKey();
+            playerX = 1;
+            playerY = 1;
+            key = new Item("klucz", level[0].Length, level.Length, currentLevel);
+            key.X = 6;
+            key.Y = 1;
+        }
+        else if (level == level2)
+        {
+            playerX = 1;
+            playerY = 1;
+            npc = new NPC(5, 2);
+        }
+    }
+
+    static void DrawLevel()
+    {
+        Console.Clear();
+        for (int y = 0; y < currentLevel.Length; y++)
+        {
+            for (int x = 0; x < currentLevel[y].Length; x++)
+            {
+                if (x == playerX && y == playerY)
+                    Console.Write('P');
+                else if (key != null && x == key.X && y == key.Y)
+                    Console.Write('K');
+                else if (npc != null && x == npc.X && y == npc.Y)
+                    Console.Write('N');
+                else
+                    Console.Write(currentLevel[y][x]);
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static void HandleInput()
+    {
+        ConsoleKey keyInput = Console.ReadKey(true).Key;
+        int newX = playerX;
+        int newY = playerY;
+
+        switch (keyInput)
+        {
+            case ConsoleKey.UpArrow: newY--; break;
+            case ConsoleKey.DownArrow: newY++; break;
+            case ConsoleKey.LeftArrow: newX--; break;
+            case ConsoleKey.RightArrow: newX++; break;
+        }
+
+        if (currentLevel[newY][newX] != '#')
+        {
+            playerX = newX;
+            playerY = newY;
+        }
+
+        if (key != null && playerX == key.X && playerY == key.Y)
+        {
+            playerInventory.AddItem(key);
+            key = null;
+        }
+
+        if (currentLevel[playerY][playerX] == 'D')
+        {
+            if (currentLevel == level1)
+            {
+                if (playerInventory.HasItem("klucz"))
+                {
+                    Console.WriteLine("Otwierasz drzwi i przechodzisz dalej...");
+                    playerInventory.RemoveItem("klucz");
+                    Console.ReadKey();
+                    LoadLevel(level2);
+                }
+                else
+                {
+                    Console.WriteLine("Drzwi są zamknięte. Potrzebujesz klucza!");
+                    Console.ReadKey();
+                }
+            }
+            else if (currentLevel == level2)
+            {
+                if (playerX == npc.X && playerY == npc.Y)
+                {
+                    if (NPC.Interact())
+                    {
+                        Console.WriteLine("Wygrałeś! Przechodzisz dalej...");
+                        Console.ReadKey();
+                        Console.Clear();
+                        Console.WriteLine("Gratulacje! Wygrałeś grę!");
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Przegrałeś. Spróbuj jeszcze raz.");
+                        Console.ReadKey();
+                        LoadLevel(level1);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Te drzwi się nie otwierają, zanim nie pokonasz NPC!");
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        if (npc != null)
+        {
+            npc.Move(currentLevel);
         }
     }
 }
-void DrawLevel()
-{
-    for (int y = 0; y < level.Length; y++)
-    {
-        for (int x = 0; x < level[y].Length; x++)
-        {
-            if (x == playerX && y == playerY && x == npc.X && y == npc.Y)
-                Console.Write('&'); // specjalny znak, np. że są na tym samym polu
-            else if (x == playerX && y == playerY)
-                Console.Write('@');
-            else if (x == npc.X && y == npc.Y)
-                Console.Write('N');
-            else
-                Console.Write(level[y][x]);
 
-        }
-        Console.WriteLine();
+public class Inventory
+{
+    private List<Item> items = new List<Item>();
+
+    public void AddItem(Item item)
+    {
+        items.Add(item);
+        Console.WriteLine($"odniesiono przedmiot: {item.Name}");
     }
 
-    Console.WriteLine("\nSterowanie: W A S D | ESC = Wyjście");
-    Console.WriteLine("& - oznacza gracza oraz NPC na tym samym polu");
+    public bool HasItem(string itemName)
+    {
+        foreach (var item in items)
+        {
+            if (item.Name.ToLower() == itemName.ToLower())
+                return true;
+        }
+        return false;
+    }
+
+    public void RemoveItem(string itemName)
+    {
+        items.RemoveAll(item => item.Name.ToLower() == itemName.ToLower());
+    }
 }
+
+
+
