@@ -1,0 +1,15 @@
+d:\VSC\Projekty\Programowanie 2\bin\Debug\net9.0\Programowanie 2.exe
+d:\VSC\Projekty\Programowanie 2\bin\Debug\net9.0\Programowanie 2.deps.json
+d:\VSC\Projekty\Programowanie 2\bin\Debug\net9.0\Programowanie 2.runtimeconfig.json
+d:\VSC\Projekty\Programowanie 2\bin\Debug\net9.0\Programowanie 2.dll
+d:\VSC\Projekty\Programowanie 2\bin\Debug\net9.0\Programowanie 2.pdb
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.GeneratedMSBuildEditorConfig.editorconfig
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.AssemblyInfoInputs.cache
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.AssemblyInfo.cs
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.csproj.CoreCompileInputs.cache
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.sourcelink.json
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.dll
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\refint\Programowanie 2.dll
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.pdb
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\Programowanie 2.genruntimeconfig.cache
+d:\VSC\Projekty\Programowanie 2\obj\Debug\net9.0\ref\Programowanie 2.dll

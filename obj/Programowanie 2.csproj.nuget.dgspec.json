@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj": {}
+    "d:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj": {}
   },
   "projects": {
-    "D:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj": {
+    "d:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj",
+        "projectUniqueName": "d:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj",
         "projectName": "Programowanie 2",
-        "projectPath": "D:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj",
+        "projectPath": "d:\\VSC\\Projekty\\Programowanie 2\\Programowanie 2.csproj",
         "packagesPath": "C:\\Users\\zaran\\.nuget\\packages\\",
-        "outputPath": "D:\\VSC\\Projekty\\Programowanie 2\\obj\\",
+        "outputPath": "d:\\VSC\\Projekty\\Programowanie 2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zaran\\AppData\\Roaming\\NuGet\\NuGet.Config"
