@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 class Program
 {
     static string[] level1 = {
         "###########",
-        "#     K   #",
+        "#        #",
         "#   #     #",
         "#   #   D #",
         "###########"
@@ -15,7 +14,7 @@ class Program
     static string[] level2 = {
         "###########",
         "#         #",
-        "#   N     #",
+        "#        #",
         "#     D   #",
         "###########"
     };
@@ -48,8 +47,6 @@ class Program
             playerX = 1;
             playerY = 1;
             key = new Item("klucz", level[0].Length, level.Length, currentLevel);
-            key.X = 6;
-            key.Y = 1;
         }
         else if (level == level2)
         {
@@ -105,6 +102,26 @@ class Program
             key = null;
         }
 
+        // Interakcja z NPC
+        if (npc != null && playerX == npc.X && playerY == npc.Y)
+        {
+            bool passed = NPC.Interact();
+            if (passed)
+            {
+                Console.WriteLine("NPC: Brawo, możesz przejść przez drzwi!");
+                Console.ReadKey();
+                npc = null; // NPC znika po interakcji
+            }
+            else
+            {
+                Console.WriteLine("NPC: Zła odpowiedź! Cofasz się do Level 1.");
+                Console.ReadKey();
+                LoadLevel(level1);
+                return;
+            }
+        }
+
+        // Wejście na drzwi
         if (currentLevel[playerY][playerX] == 'D')
         {
             if (currentLevel == level1)
@@ -124,26 +141,15 @@ class Program
             }
             else if (currentLevel == level2)
             {
-                if (playerX == npc.X && playerY == npc.Y)
+                if (npc == null)
                 {
-                    if (NPC.Interact())
-                    {
-                        Console.WriteLine("Wygrałeś! Przechodzisz dalej...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        Console.WriteLine("Gratulacje! Wygrałeś grę!");
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Przegrałeś. Spróbuj jeszcze raz.");
-                        Console.ReadKey();
-                        LoadLevel(level1);
-                    }
+                    Console.WriteLine("Drzwi otwarte – ukończyłeś grę!");
+                    Console.ReadKey();
+                    Environment.Exit(0); // zakończ grę
                 }
                 else
                 {
-                    Console.WriteLine("Te drzwi się nie otwierają, zanim nie pokonasz NPC!");
+                    Console.WriteLine("Nie możesz jeszcze przejść – pokonaj NPC!");
                     Console.ReadKey();
                 }
             }
@@ -156,31 +162,7 @@ class Program
     }
 }
 
-public class Inventory
-{
-    private List<Item> items = new List<Item>();
 
-    public void AddItem(Item item)
-    {
-        items.Add(item);
-        Console.WriteLine($"odniesiono przedmiot: {item.Name}");
-    }
-
-    public bool HasItem(string itemName)
-    {
-        foreach (var item in items)
-        {
-            if (item.Name.ToLower() == itemName.ToLower())
-                return true;
-        }
-        return false;
-    }
-
-    public void RemoveItem(string itemName)
-    {
-        items.RemoveAll(item => item.Name.ToLower() == itemName.ToLower());
-    }
-}
 
 
 

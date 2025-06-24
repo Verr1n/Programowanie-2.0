@@ -1,8 +1,8 @@
 public class NPC
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
-    private Random rand = new Random();
+    public int X { get; set; }
+    public int Y { get; set; }
+    private static Random rand = new Random();
 
     public NPC(int x, int y)
     {
@@ -14,17 +14,19 @@ public class NPC
     {
         int newX = X;
         int newY = Y;
-        int dir = rand.Next(4);
-        switch (dir)
+
+        switch (rand.Next(4))
         {
             case 0: newY--; break;
             case 1: newY++; break;
             case 2: newX--; break;
             case 3: newX++; break;
         }
+
         if (newY >= 0 && newY < level.Length &&
             newX >= 0 && newX < level[0].Length &&
-            level[newY][newX] != '#')
+            level[newY][newX] != '#' &&
+            level[newY][newX] != 'D')
         {
             X = newX;
             Y = newY;

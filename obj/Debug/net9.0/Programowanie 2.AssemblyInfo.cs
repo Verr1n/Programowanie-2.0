@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Programowanie 2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd5470a23f10e62b2624b0cbfa7c4d993a0cf20f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36d2f2d988db77042b5533808e5a6a8b8f5832af")]
 [assembly: System.Reflection.AssemblyProductAttribute("Programowanie 2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Programowanie 2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
