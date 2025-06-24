@@ -5,7 +5,7 @@ public class NPC
     public int X { get; private set; }
     public int Y { get; private set; }
 
-    private static Random rand = new Random();
+    private Random rand = new Random();
 
     public NPC(int x, int y)
     {
@@ -28,52 +28,54 @@ public class NPC
             case 3: newX++; break;
         }
 
-        // Sprawdzenie czy nowe pole nie jest ścianą
-        if (level[newY][newX] != '#')
+        if (newY >= 0 && newY < level.Length &&
+            newX >= 0 && newX < level[0].Length &&
+            level[newY][newX] != '#')
         {
             X = newX;
             Y = newY;
         }
     }
 
-    // Interakcja: gra w papier-kamień-nożyce
+    // Interakcja z graczem
     public static bool Interact()
     {
         Console.Clear();
-        Console.WriteLine("🧍 NPC: Chcesz się zmierzyć w papier-kamień-nożyce?");
+        Console.WriteLine("NPC: Chcesz się zmierzyć w papier-kamień-nożyce?");
         Console.WriteLine("Masz 3 próby. Wygraj przynajmniej raz, by przejść dalej!");
         Console.WriteLine("Wpisz: papier / kamień / nożyce");
 
         string[] options = { "papier", "kamień", "nożyce" };
         int trials = 3;
-        bool won = false;
+        bool winning = false;
+        Random npcRand = new Random();
 
         while (trials > 0)
         {
             Console.Write("\n🫵 Twój wybór: ");
-            string player = Console.ReadLine()?.ToLower().Trim() ?? "";
+            string person = Console.ReadLine()?.ToLower()?.Trim() ?? "";
 
-            if (Array.IndexOf(options, player) == -1)
+            if (Array.IndexOf(options, person) == -1)
             {
-                Console.WriteLine("Niepoprawny wybór! Wpisz: papier / kamień / nożyce.");
+                Console.WriteLine("❌ Niepoprawny wybór! Wpisz papier, kamień albo nożyce.");
                 continue;
             }
 
-            string npc = options[rand.Next(3)];
+            string npc = options[npcRand.Next(3)];
             Console.WriteLine($"NPC wybrał: {npc}");
 
-            if (player == npc)
+            if (person == npc)
             {
                 Console.WriteLine("Remis!");
                 continue;
             }
 
-            if ((player == "papier" && npc == "kamień") ||
-                (player == "kamień" && npc == "nożyce") ||
-                (player == "nożyce" && npc == "papier"))
+            if ((person == "papier" && npc == "kamień") ||
+                (person == "kamień" && npc == "nożyce") ||
+                (person == "nożyce" && npc == "papier"))
             {
-                Console.WriteLine("Wygrałeś pojedynek!");
-                won = true;
+                Console.WriteLine("Wygrałeś!");
+                winning = true;
                 break;
             }
             else
@@ -83,14 +85,13 @@ public class NPC
             }
         }
 
-        if (!won)
+        if (!winning)
         {
-            Console.WriteLine("Przegrałeś wszystkie próby. Spróbuj ponownie później.");
+            Console.WriteLine("Przegrałeś wszystkie próby.");
         }
 
-        Console.WriteLine("\nNaciśnij dowolny klawisz, aby kontynuować...");
+        Console.WriteLine("Naciśnij dowolny klawisz, by kontynuować...");
         Console.ReadKey();
-
-        return won;
+        return winning;
     }
 }
