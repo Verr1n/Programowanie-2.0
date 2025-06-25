@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 class Program
 {
     static string[] level1 = {
@@ -19,12 +20,11 @@ class Program
         "###########"
     };
 
-    static string[] currentLevel;
-    static int playerX = 1;
+    static string[] currentLevel = Array.Empty<string>();    static int playerX = 1;
     static int playerY = 1;
     static Inventory playerInventory = new Inventory();
-    static Item key;
-    static NPC npc;
+    static Item? key;
+    static NPC? npc;
 
     static void Main()
     {
@@ -105,7 +105,7 @@ class Program
         // Interakcja z NPC
         if (npc != null && playerX == npc.X && playerY == npc.Y)
         {
-            bool passed = NPC.Interact();
+            bool passed = npc.Interact();
             if (passed)
             {
                 Console.WriteLine("NPC: Brawo, możesz przejść przez drzwi!");
