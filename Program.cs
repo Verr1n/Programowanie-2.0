@@ -20,7 +20,8 @@ class Program
         "###########"
     };
 
-    static string[] currentLevel = Array.Empty<string>();    static int playerX = 1;
+    static string[] currentLevel = Array.Empty<string>();  
+    static int playerX = 1;
     static int playerY = 1;
     static Inventory playerInventory = new Inventory();
     static Item? key;
